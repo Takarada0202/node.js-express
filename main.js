@@ -8,6 +8,7 @@ const sanitizeHtml = require('sanitize-html')
 const compression = require('compression')
 const template = require('./lib/template.js')
 const topicRouter = require('./routes/topic')
+const indexRouter =require('./routes/index')
  
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -19,24 +20,14 @@ app.get('*', function(request, response, next){
   })
 })
  
+
+app.use('/', indexRouter)
 app.use('/topic', topicRouter)
  
  
 //route, routing
 //app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/', function(request, response) { 
-  let title = 'Welcome'
-  let description = 'Hello, Node.js'
-  let list = template.list(request.list)
-  let html = template.HTML(title, list,
-    `
-    <h2>${title}</h2>${description}
-    <img src="/images/hello.jpg" style="width:300px display:block margin-top:10px">
-    `,
-    `<a href="/topic/create">create</a>`
-  ) 
-  response.send(html)
-})
+
 
 app.use(function(req, res, next) {
   res.status(404).send('Sorry cant find that!')
