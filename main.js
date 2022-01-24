@@ -8,8 +8,12 @@ const sanitizeHtml = require('sanitize-html')
 const compression = require('compression')
 const template = require('./lib/template.js')
 const topicRouter = require('./routes/topic')
-const indexRouter =require('./routes/index')
- 
+const indexRouter = require('./routes/index')
+var helmet = require('helmet')
+
+
+
+app.use(helmet()) 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(compression())
